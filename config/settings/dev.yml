@@ -1,0 +1,5 @@
+wordpress:
+  host: <%= ENV['WP_HOST'] %>
+  username: <%= ENV['WP_USER'] %>
+  password: <%= ENV['WP_PASS'] %>
+  use_ssl: <%= ENV['WP_SSL'] || false %>
