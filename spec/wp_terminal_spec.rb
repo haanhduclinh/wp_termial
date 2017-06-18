@@ -24,10 +24,11 @@ RSpec.describe WpTerminal::Core do
     let(:post) { 'Hello world' }
 
     it 'post successful' do
-      @wp.submit_post(
+      response = @wp.submit_post(
         title: title,
         post: post
       )
+      expect(response[:result]).to be true
     end
 
     before do

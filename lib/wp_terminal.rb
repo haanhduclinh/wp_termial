@@ -1,10 +1,14 @@
 require 'dotenv/load'
 require 'stringex'
+require 'config'
+require 'optparse'
 
 module WpTerminal
+  autoload :WpCore, './lib/wp_terminal/wp_core'
+  autoload :Terminal, './lib/wp_terminal/terminal'
+  autoload :WpTerminal, './lib/version'
+
   class Core
-    autoload :WpCore, 'wp_terminal/wp_core'
-    autoload :WpTerminal, 'version'
     Config.load_and_set_settings(Config.setting_files('./config', ENV['ENV']))
 
     def initialize
@@ -14,6 +18,15 @@ module WpTerminal
         password: Settings.wordpress.password,
         use_ssl: Settings.wordpress.use_ssl
       )
+      @options = WpTerminal::Terminal.parse_option
+    end
+
+    def run!
+      if post_from_file?
+        post_from_file
+      else
+        post_from_terminal
+      end
     end
 
     def submit_post(title:, post:, options: {})
@@ -27,11 +40,68 @@ module WpTerminal
         tag_arr: options[:tag_arr],
         attachment_id: options[:attachment_id]
       }.select { |_k, v| v }
-      @wp.post post_data
-      # (date: Time.now, title:, content:, post_url:, author_id:, category_arr:, tag_arr:, attachment_id:)
+
+      response = @wp.post(post_data)
+      if response.to_i > 0
+        { result: true, body: 'Post created' }
+      else
+        { result: false, body: 'Post failed' }
+      end
+    rescue => e
+      { result: false, body: e.message }
     end
 
     private
+
+    def post_from_file?
+      @options[:post] && @options[:title]
+    end
+
+    def post_from_file
+      title = @options[:title]
+      post = @options[:post]
+      attachment_id = if @options[:thumbnail]
+                        @wp.upload_image(@options[:thumbnail], default_picture_id = nil)
+                      else
+                        nil
+                      end
+
+      post_options = {
+        date: @options[:date],
+        post_url: @options[:url],
+        category_arr: @options[:url],
+        tag_arr: @options[:tag_arr],
+        attachment_id: attachment_id
+      }.select { |_k, v| v }
+
+      @wp.submit_post(
+        title: title,
+        post: post,
+        options: post_options
+      )
+    end
+
+    def post_from_terminal
+      p "Put your title:"
+      title = gets.chomp
+      p "Put your content:"
+      content = []
+      type = gets
+
+      if type.start_with?("BEGIN")
+        until type.start_with?("END\n")
+          content << type unless type == "BEGIN\n"
+          type = gets
+        end
+      else
+        content << type.chomp
+      end
+
+      submit_post(
+        title: title,
+        post: content.join(' ')
+      )
+    end
 
     def to_url(str)
       url = str.to_url
