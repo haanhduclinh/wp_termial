@@ -46,7 +46,7 @@ module WpTerminal
             bits: XMLRPC::Base64.new(File.open(image_file_path).read)
           }
       )
-      res['attachment_id'] ? res['attachment_id'] : default_picture_id
+      res['id'] ? res['id'] : default_picture_id
     end
 
     def set_thumbnail

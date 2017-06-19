@@ -60,6 +60,7 @@ module WpTerminal
     def post_from_file
       title = @options[:title]
       post = @options[:post]
+
       attachment_id = if @options[:thumbnail]
                         @wp.upload_image(@options[:thumbnail], default_picture_id = nil)
                       else
@@ -69,12 +70,12 @@ module WpTerminal
       post_options = {
         date: @options[:date],
         post_url: @options[:url],
-        category_arr: @options[:url],
+        category_arr: @options[:category_arr],
         tag_arr: @options[:tag_arr],
         attachment_id: attachment_id
       }.select { |_k, v| v }
 
-      @wp.submit_post(
+      submit_post(
         title: title,
         post: post,
         options: post_options
