@@ -5,7 +5,7 @@ gem 'rubypress'
 gem 'stringex', '~> 2.7', '>= 2.7.1'
 
 %w[rspec rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
-  gem lib, git: "git://github.com/rspec/#{lib}.git", branch: 'master'
+  gem lib
 end
 
 group :development do

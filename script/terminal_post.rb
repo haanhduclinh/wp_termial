@@ -5,7 +5,7 @@ wp_terminal = WpTerminal::Core.new
 response = wp_terminal.run!
 
 if response[:result]
-  puts "Done | Post created"
+  puts 'Done | Post created'
 else
-  puts "Failed | #{response[:body]}"
+  puts 'Failed | #{response[:body]}'
 end

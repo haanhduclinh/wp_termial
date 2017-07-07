@@ -1,46 +1,3 @@
-GIT
-  remote: git://github.com/rspec/rspec-core.git
-  revision: 267622677a0516d7f97a92ce40eb05342bdcb71a
-  branch: master
-  specs:
-    rspec-core (3.7.0.pre)
-      rspec-support (= 3.7.0.pre)
-
-GIT
-  remote: git://github.com/rspec/rspec-expectations.git
-  revision: 8516bdc7a4ee42d5f3669753a6b31a7fed01c576
-  branch: master
-  specs:
-    rspec-expectations (3.7.0.pre)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.7.0.pre)
-
-GIT
-  remote: git://github.com/rspec/rspec-mocks.git
-  revision: cd7adc9fe1c418c2fe04d32f0961c615333af7aa
-  branch: master
-  specs:
-    rspec-mocks (3.7.0.pre)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (= 3.7.0.pre)
-
-GIT
-  remote: git://github.com/rspec/rspec-support.git
-  revision: b0b5795757cad1cad435c268d2ed8837255bef5e
-  branch: master
-  specs:
-    rspec-support (3.7.0.pre)
-
-GIT
-  remote: git://github.com/rspec/rspec.git
-  revision: dcb407aa8b072c8c1cb612e1eeb99b9b754fa115
-  branch: master
-  specs:
-    rspec (3.7.0.pre)
-      rspec-core (= 3.7.0.pre)
-      rspec-expectations (= 3.7.0.pre)
-      rspec-mocks (= 3.7.0.pre)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -109,6 +66,19 @@ GEM
       rake
     rake (12.0.0)
     retryable-rb (1.1.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-core (3.5.4)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-support (3.5.0)
     rubocop (0.47.1)
       parser (>= 2.3.3.1, < 3.0)
       powerpack (~> 0.1)
@@ -135,11 +105,11 @@ DEPENDENCIES
   config (= 1.4.0)
   dotenv-rails
   pry
-  rspec!
-  rspec-core!
-  rspec-expectations!
-  rspec-mocks!
-  rspec-support!
+  rspec
+  rspec-core
+  rspec-expectations
+  rspec-mocks
+  rspec-support
   rubocop (~> 0.47.1)
   rubypress
   stringex (~> 2.7, >= 2.7.1)
