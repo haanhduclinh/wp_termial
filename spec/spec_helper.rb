@@ -10,4 +10,5 @@ RSpec.configure do |config|
   end
   Config.load_and_set_settings(Config.setting_files('./config', 'test'))
   config.shared_context_metadata_behavior = :apply_to_host_groups
+  config.color = true
 end

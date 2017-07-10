@@ -9,7 +9,7 @@ gem 'stringex', '~> 2.7', '>= 2.7.1'
 end
 
 group :development do
-  gem 'dotenv-rails'
+  gem 'dotenv'
   gem 'pry'
   gem 'rubocop', '~> 0.47.1', require: false
 end

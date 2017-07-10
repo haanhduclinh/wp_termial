@@ -30,18 +30,11 @@ module WpTerminal
     end
 
     def submit_post(title:, post:, options: {})
-      post_data = {
-        date: options[:date] || Time.now,
+      response = @wp.post(
         title: title,
         content: post,
-        post_url: options[:post_url] || to_url(title),
-        author_id: Settings.wordpress.use_ssl,
-        category_arr: options[:category_arr],
-        tag_arr: options[:tag_arr],
-        attachment_id: options[:attachment_id]
-      }.select { |_k, v| v }
-
-      response = @wp.post(post_data)
+        options: options
+      )
       if response.to_i > 0
         { result: true, body: 'Post created' }
       else
@@ -59,17 +52,16 @@ module WpTerminal
 
     def post_from_file
       attachment_id = if @options[:thumbnail]
-                        @wp.upload_image(@options[:thumbnail], default_picture_id = nil)
-                      else
-                        nil
+                        @wp.upload_image(@options[:thumbnail])
                       end
 
       post_options = {
         date: @options[:date],
-        post_url: @options[:url],
+        post_url: @options[:url] || to_url(@options[:title]),
         category_arr: @options[:category_arr],
         tag_arr: @options[:tag_arr],
-        attachment_id: attachment_id
+        attachment_id: attachment_id,
+        author_id: Settings.wordpress.use_ssl
       }.select { |_k, v| v }
 
       submit_post(
@@ -80,13 +72,13 @@ module WpTerminal
     end
 
     def post_from_terminal
-      p "Put your title:"
+      p 'Put your title:'
       title = gets.chomp
-      p "Put your content:"
+      p 'Put your content:'
       content = []
       type = gets
 
-      if type.start_with?("BEGIN")
+      if type.start_with?('BEGIN')
         until type.start_with?("END\n")
           content << type unless type == "BEGIN\n"
           type = gets

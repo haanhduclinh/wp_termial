@@ -11,21 +11,21 @@ module WpTerminal
       )
     end
 
-    def post(date: Time.now, title:, content:, post_url:, author_id:, category_arr: [], tag_arr: [], attachment_id: nil)
+    def post(title:, content:, options: {})
       terms_names = {
-        category: category_arr,
-        post_tag: tag_arr
+        category: options[:category_arr],
+        post_tag: options[:tag_arr]
       }.select { |_k, v| v }
 
       content = {
         post_status: 'publish',
-        post_date: date,
+        post_date: options[:date] || Time.now,
         post_content: content,
         post_title: title,
-        post_name: post_url,
-        post_author: author_id,
+        post_name: options[:post_url],
+        post_author: options[:author_id],
         post_type: 'post',
-        post_thumbnail: attachment_id,
+        post_thumbnail: options[:attachment_id],
         terms_names: terms_names
       }.select { |_k, v| v }
 
